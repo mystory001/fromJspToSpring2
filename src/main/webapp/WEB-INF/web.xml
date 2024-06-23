@@ -9,4 +9,20 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>default.htm</welcome-file>
   </welcome-file-list>
+
+<!-- 
+	MVC2
+	가상주소 http://localhost:8080/Since240623/insert.me
+	→ 가상주소 .me로 끝나는 주소 요청이 들어오면 서블릿 이름이 MemberController 연결
+	→ 서블릿 com.mystory001.mvcproject.controller 찾아가서 폴더(패키지) Membercontroller 주소 매핑(가상주소를 실제 페이지 연결)하는 파일 연결
+ -->
+	<servlet-mapping>
+		<servlet-name>MemberController</servlet-name>
+		<url-pattern>*.me</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>MemberController</servlet-name>
+		<servlet-class>com.mystroy001.mvcproject.controller.MemberController</servlet-class>
+	</servlet>	
 </web-app>
