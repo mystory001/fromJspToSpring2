@@ -25,17 +25,17 @@ String formattedTime = dateFormat.format(lastAccessTime);
 %>
 
 마지막으로 로그인한 시간 : <%=formattedTime %><br>
-<a href="info.jsp">회원정보조회</a><br>
-<a href="update.jsp">회원정보수정</a><br>
-<a href="delete.jsp">회원정보삭제</a><br>
+<a href="info.me">회원정보조회</a><br>
+<a href="update.me">회원정보수정</a><br>
+<a href="delete.me">회원정보삭제</a><br>
 <hr>
-<a href="../2)board/write.jsp">글쓰기</a><br>
+<a href="../board/write.me">글쓰기</a><br>
 
 <%
 if(!(id==null) && id.equals("admin")){%>
-		<a href="list.jsp">회원 목록</a><br>
+		<a href="list.me">회원 목록</a><br>
 <%
 }%>
-<a href="logout.jsp">로그아웃</a>
+<a href="logout.me">로그아웃</a>
 </body>
 </html>

@@ -1,5 +1,5 @@
-<%@page import="member.MemberDTO"%>
-<%@page import="member.MemberDAO"%>
+<%@page import="com.mystroy001.mvcproject.domain.MemberDTO"%>
+<%@page import="com.mystroy001.mvcproject.domain.MemberDAO"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.DriverManager"%>
@@ -15,22 +15,25 @@
 <body>
 <h1>회원 정보 조회</h1>
 <%
-request.setCharacterEncoding("utf-8");
-
-//main.jsp에서 info.jsp로 이동할 때 값을 들고오지 않음
-//연결정보를 저장하는 session 객체에 로그인 표시(ket,value)저장
-//session에서 로그인 표시값 가져오기 → String id 변수에 저장
 String id = (String)session.getAttribute("id");
-//session.getAttribute(String name);
-//세션에 저장된 값을 얻어오기
-//반환되는 값이 Object형이기 때문에 명시적으로 형 변환을 해야함
 
-//MemberDAO 객체 생성
 MemberDAO memberDAO = new MemberDAO();
+
 MemberDTO memberDTO = memberDAO.getMember(id);
-System.out.println("리턴 받은 MemberDTO의 메모리 주소 : " + memberDTO);
-if(memberDTO!=null){
-%>
+/*
+request.getParameter()를 이용하면 String 값만 주고 받을 수 있음
+form 태그의 action으로 넘어온 값을 변경시킨 후 jsp페이지로 넘겨주기 위해서는 request.setAttribute()를 써서 넘겨주고, 
+jsp페이지에서는 request.getAttribute()를 써서 받아와야함.
+request.setAttribute()를 통해 넘겨준 값을 request.getAttribute()로 받아야함
+받을 때 타입이 Object형이기 때문에 반드시 형 변환을 해줘야함.
+
+request.getAttribute("name") : 요청된 name의 Value를 Object로 넘겨줌. 특정 요소노드 내에 특정한 속성값을 가져오는 메서드
+request.setAttribute("name",value) : 속성값을 변경시키는 메서드
+*/
+
+
+memberDTO = (MemberDTO)request.getAttribute("memberDTO");
+if(memberDTO != null){%>
 아이디 : <%=memberDTO.getId() %><br>
 비밀번호 : <%=memberDTO.getPw() %><br>
 이름 : <%=memberDTO.getName() %><br>
@@ -38,9 +41,10 @@ if(memberDTO!=null){
 <%} else { %>
 올바르지 않은 접근입니다.
 <%
-}
+} 
 %>
 
-<a href="main.jsp">main.jsp로 이동</a>
+
+<a href="main.me">main.me 이동</a>
 </body>
 </html>

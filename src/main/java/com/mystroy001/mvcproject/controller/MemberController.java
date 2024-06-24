@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.mysql.cj.Session;
+import com.mystroy001.mvcproject.domain.MemberDTO;
 import com.mystroy001.mvcproject.service.MemberService;
 
 public class MemberController extends HttpServlet{
@@ -42,6 +44,7 @@ public class MemberController extends HttpServlet{
 		System.out.println("가상주소 뽑아오기 : " + sPath);
 		//주소 매핑 → 가상 주소 비교 → 실제 페이지 연결
 		if(sPath.equals("/insert.me")) {
+			System.out.println("가상주소 일치 여부 : " + sPath.equals("/insert.me"));
 			//페이지 이동 방식
 			//1)실제 페이지 member/insert.jsp 웹 방식 주소가 변경되면서 웹 이동(하이퍼링크)
 			//response.sendRedirect("member/insert.jsp");
@@ -59,6 +62,7 @@ public class MemberController extends HttpServlet{
 			response.sendRedirect("login.me");
 		}
 		if(sPath.equals("/login.me")) {
+			System.out.println("가상주소 일치 여부 : " + sPath.equals("/login.me"));
 			RequestDispatcher dispatcher = request.getRequestDispatcher("member/login.jsp");
 			dispatcher.forward(request, response);
 		}
@@ -75,11 +79,56 @@ public class MemberController extends HttpServlet{
 			}
 		}
 		if(sPath.equals("/main.me")){
+			System.out.println("가상주소 일치 여부 : " + sPath.equals("/main.me"));
 			RequestDispatcher dispatcher = request.getRequestDispatcher("member/main.jsp");
 			dispatcher.forward(request, response);
 		}
-		
-		
+		if(sPath.equals("/logout.me")) {
+			System.out.println("가상주소 일치 여부 : " + sPath.equals("/logout.me"));
+			HttpSession session = request.getSession();
+			session.invalidate();
+			response.sendRedirect("login.me");
+		}
+		// → MemberService 객체 생성 → 
+		//→ MemberDTO getMember(id) 메서드 호출 → request에 MemberDTO, memberDTO 담아서 → member/info.jsp 주소 변경없이 이동
+		if(sPath.equals("/info.me")) {
+			HttpSession session = request.getSession();
+			String id = (String)session.getAttribute("id"); //session값(로그인 표시값) 가져오기(String id 변수에 저장)
+			
+			MemberService memberService = new MemberService();
+			
+			MemberDTO memberDTO = memberService.getMember(id);
+			request.setAttribute("memberDTO", memberDTO); //request에 "memberDTO",memberDTO를 담아서 이동
+			
+			System.out.println("가상주소 일치 여부 : " + sPath.equals("/info.me"));
+			RequestDispatcher dispatcher = request.getRequestDispatcher("member/info.jsp");
+			dispatcher.forward(request, response);
+		}
+		if(sPath.equals("/update.me")) {
+			HttpSession session = request.getSession(); //세션값 가져오기 → String id 변수에 저장
+			String id = (String)session.getAttribute("id");
+			MemberService memberService = new MemberService();
+			MemberDTO memberDTO = memberService.getMember(id);
+			request.setAttribute("memberDTO", memberDTO); //request에 "memberDTO",memberDTO에 담아서 이동
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("member/update.jsp");
+			dispatcher.forward(request, response);
+		}
+		if(sPath.equals("/updatePro.me")) {
+			request.setCharacterEncoding("utf-8");
+			
+			MemberService memberService = new MemberService();
+			boolean result = memberService.userCheck(request);
+			if(result==true) {
+				memberService.updateMember(request);
+				response.sendRedirect("main.me");
+			} else {
+				response.sendRedirect("update.me");
+			}
+		}
+		if(sPath.equals("/delete.me")) {
+		}
+			
 		
 	}//
 	

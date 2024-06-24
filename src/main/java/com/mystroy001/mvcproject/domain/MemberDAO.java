@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import javax.naming.Context;
@@ -62,6 +61,8 @@ public class MemberDAO {
 			connection = ds.getConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			dbClose();
 		}
 		return connection;
 	}
@@ -126,30 +127,24 @@ public class MemberDAO {
 	
 	public MemberDTO getMember(String id) {
 		System.out.println("MemberDAO getMember()");
-		MemberDTO memberDTO = new MemberDTO();
+		MemberDTO memberDTO = null;
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-
-			String url = "jdbc:mysql://localhost:3306/jspdb1?serverTimezone=Asia/Seoul";
-			String user = "root";
-			String password = "1234";
-			Connection connection = DriverManager.getConnection(url, user, password);
-
+			Connection connection = getConnection();
+			
 			String sql = "select * from members where id=?";
-			PreparedStatement pstmt = connection.prepareStatement(sql);
+			pstmt = connection.prepareStatement(sql);
 			pstmt.setString(1, id);
 
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
-				System.out.println("올바른 접근");
-				System.out.println(memberDTO);
+				memberDTO = new MemberDTO();
 				memberDTO.setId(rs.getString("id"));
 				memberDTO.setPw(rs.getString("pw"));
 				memberDTO.setName(rs.getString("name"));
 				memberDTO.setDate(rs.getTimestamp("date"));
 			} else {
 				System.out.println("잘못된 접근");
-				System.out.println(memberDTO);
+				memberDTO = null;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

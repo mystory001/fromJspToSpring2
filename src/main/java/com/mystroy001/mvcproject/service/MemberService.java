@@ -54,4 +54,41 @@ public class MemberService {
 		return result;
 	}
 
+	public MemberDTO getMember(String id) {
+		System.out.println("MemberService getMember()");
+		MemberDTO memberDTO = null;
+		try {
+			MemberDAO memberDAO = new MemberDAO();
+			memberDTO = memberDAO.getMember(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return memberDTO;
+	}
+
+	public void updateMember(HttpServletRequest request) {
+		System.out.println("MemberService updateMember()");
+		try {
+			request.setCharacterEncoding("utf-8");
+			
+			String id = request.getParameter("id");
+			String pw = request.getParameter("pw");
+			String name = request.getParameter("name");
+			Timestamp date = new Timestamp(System.currentTimeMillis());
+			
+			MemberDTO memberDTO = new MemberDTO();
+			memberDTO.setId(id);
+			memberDTO.setPw(pw);
+			memberDTO.setName(name);
+			memberDTO.setDate(date);
+			
+			MemberDAO memberDAO = new MemberDAO();
+			memberDAO.updateMember(memberDTO);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 }

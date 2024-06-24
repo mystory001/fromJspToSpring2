@@ -11,7 +11,7 @@
 <%=session.getAttribute("id") %>님 또 뵙겠습니다.
 <%
 session.invalidate();
-response.sendRedirect("login.jsp");
+response.sendRedirect("login.me");
 %>
 </body>
 </html>

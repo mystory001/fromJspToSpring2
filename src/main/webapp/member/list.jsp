@@ -49,6 +49,6 @@ ArrayList<MemberDTO> memberList = memberDAO.getMemberList();
 <tr><td><%=memberList.get(i).getId() %></td><td><%=memberList.get(i).getPw() %></td><td><%=memberList.get(i).getName() %></td><td><%=memberList.get(i).getDate() %></td></tr>
 <%} %>
 </table>
-<a href="main.jsp">메인으로</a><br>
+<a href="main.me">메인으로</a><br>
 </body>
 </html>
