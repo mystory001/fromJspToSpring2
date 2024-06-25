@@ -1,6 +1,7 @@
 package com.mystroy001.mvcproject.service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,6 +10,9 @@ import com.mystroy001.mvcproject.domain.MemberDTO;
 
 public class MemberService {
 
+	MemberDAO memberDAO = new MemberDAO();
+	MemberDTO memberDTO = new MemberDTO();
+	
 	public void insertMember(HttpServletRequest request) {
 		System.out.println("MemberService insertMember()");
 		try {
@@ -19,15 +23,12 @@ public class MemberService {
 			String name = request.getParameter("name");
 			Timestamp date = new Timestamp(System.currentTimeMillis());
 			
-			//MemberDTO 객체 생성 → 메모리 할당
-			MemberDTO memberDTO = new MemberDTO();
 			//멤버변수에 request에 가져온 값을 set() 메서드를 호출해서 저장
 			memberDTO.setId(id);
 			memberDTO.setPw(pw);
 			memberDTO.setName(name);
 			memberDTO.setDate(date);
 			
-			MemberDAO memberDAO = new MemberDAO();
 			memberDAO.insertMember(memberDTO);
 			
 		} catch (Exception e) {
@@ -45,9 +46,7 @@ public class MemberService {
 			String id = request.getParameter("id");
 			String pw = request.getParameter("pw");
 			
-			MemberDAO memberDAO = new MemberDAO();
 			result = memberDAO.userCheck(id, pw);
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -58,7 +57,6 @@ public class MemberService {
 		System.out.println("MemberService getMember()");
 		MemberDTO memberDTO = null;
 		try {
-			MemberDAO memberDAO = new MemberDAO();
 			memberDTO = memberDAO.getMember(id);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -76,19 +74,36 @@ public class MemberService {
 			String name = request.getParameter("name");
 			Timestamp date = new Timestamp(System.currentTimeMillis());
 			
-			MemberDTO memberDTO = new MemberDTO();
 			memberDTO.setId(id);
 			memberDTO.setPw(pw);
 			memberDTO.setName(name);
 			memberDTO.setDate(date);
 			
-			MemberDAO memberDAO = new MemberDAO();
 			memberDAO.updateMember(memberDTO);
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+	}
+
+	public void deleteMember(HttpServletRequest request) {
+		System.out.println("MemberService deleteMember()");
+		try {
+			String id = request.getParameter("id");
+			memberDAO.deleteMember(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public ArrayList<MemberDTO> getMemberList(){
+		System.out.println("MemberService getMemberList()");
+		ArrayList<MemberDTO> memberList = null;
+		try {
+			memberList = memberDAO.getMemberList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return memberList;
 	}
 
 }

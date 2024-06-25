@@ -25,4 +25,15 @@
 		<servlet-name>MemberController</servlet-name>
 		<servlet-class>com.mystroy001.mvcproject.controller.MemberController</servlet-class>
 	</servlet>	
+	
+		<servlet-mapping>
+		<servlet-name>boardController</servlet-name>
+		<url-pattern>*.me</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>boardController</servlet-name>
+		<servlet-class>com.mystroy001.mvcproject.controller.BoardController</servlet-class>
+	</servlet>	
+	
 </web-app>
