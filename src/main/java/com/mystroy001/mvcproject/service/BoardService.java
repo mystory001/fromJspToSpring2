@@ -16,6 +16,7 @@ public class BoardService {
 		System.out.println("BoardService insertBoard()");
 		try {
 			request.setCharacterEncoding("utf-8");
+			
 			String id = request.getParameter("id");
 			String subject = request.getParameter("subject");
 			String context = request.getParameter("context");
