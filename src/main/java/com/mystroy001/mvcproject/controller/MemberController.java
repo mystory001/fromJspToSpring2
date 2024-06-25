@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.mysql.cj.Session;
-import com.mystroy001.mvcproject.domain.MemberDAO;
+import com.mystroy001.mvcproject.dao.MemberDAO;
 import com.mystroy001.mvcproject.domain.MemberDTO;
 import com.mystroy001.mvcproject.service.MemberService;
 

@@ -1,4 +1,4 @@
-package com.mystroy001.mvcproject.domain;
+package com.mystroy001.mvcproject.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+
+import com.mystroy001.mvcproject.domain.BoardDTO;
 
 public class BoardDAO {
 //게시판 데이터베이스 작업
@@ -82,7 +84,6 @@ public class BoardDAO {
 			
 			String sql = "select max(num) from board";
 			pstmt = connection.prepareStatement(sql);
-			
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -90,6 +91,8 @@ public class BoardDAO {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			dbClose();
 		}
 		return num;
 	}//
@@ -120,6 +123,8 @@ public class BoardDAO {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			dbClose();
 		}
 		return boardList;
 	}//
@@ -147,6 +152,8 @@ public class BoardDAO {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			dbClose();
 		}
 		return boardDTO;
 	}//
@@ -163,6 +170,8 @@ public class BoardDAO {
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			dbClose();
 		}
 	}//
 	
@@ -180,6 +189,8 @@ public class BoardDAO {
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			dbClose();
 		}
 	}//
 	
@@ -195,6 +206,8 @@ public class BoardDAO {
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			dbClose();
 		}
 	}//
 

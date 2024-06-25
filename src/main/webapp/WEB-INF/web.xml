@@ -26,9 +26,9 @@
 		<servlet-class>com.mystroy001.mvcproject.controller.MemberController</servlet-class>
 	</servlet>	
 	
-		<servlet-mapping>
+	<servlet-mapping>
 		<servlet-name>boardController</servlet-name>
-		<url-pattern>*.me</url-pattern>
+		<url-pattern>*.bo</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>

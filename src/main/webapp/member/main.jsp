@@ -89,8 +89,8 @@ String id = (String)session.getAttribute("id");
 <a href="info.me">회원정보조회</a><br>
 <a href="update.me">회원정보수정</a><br>
 <a href="delete.me">회원정보삭제</a><br>
-<c:if test=${! empty sessionScope.id}>
-<c:if test=${sessionScope.id == "admin" }>
+<c:if test="${! empty sessionScope.id}">
+<c:if test="${sessionScope.id == 'admin' }">
 <a href="list.me">회원 목록</a>
 </c:if>
 </c:if><br>

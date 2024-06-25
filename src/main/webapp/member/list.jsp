@@ -1,4 +1,4 @@
-<%@page import="com.mystroy001.mvcproject.domain.MemberDAO"%>
+<%@page import="com.mystroy001.mvcproject.dao.MemberDAO"%>
 <%@page import="com.mystroy001.mvcproject.domain.MemberDTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.ResultSet"%>

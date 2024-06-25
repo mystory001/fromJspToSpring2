@@ -1,4 +1,4 @@
-package com.mystroy001.mvcproject.domain;
+package com.mystroy001.mvcproject.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+
+import com.mystroy001.mvcproject.domain.MemberDTO;
 
 public class MemberDAO {
 	

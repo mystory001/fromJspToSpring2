@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.mystroy001.mvcproject.domain.MemberDAO;
+import com.mystroy001.mvcproject.dao.MemberDAO;
 import com.mystroy001.mvcproject.domain.MemberDTO;
 
 public class MemberService {

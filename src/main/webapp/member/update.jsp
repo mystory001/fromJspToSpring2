@@ -1,5 +1,5 @@
 <%@page import="com.mystroy001.mvcproject.domain.MemberDTO"%>
-<%@page import="com.mystroy001.mvcproject.domain.MemberDAO"%>
+<%@page import="com.mystroy001.mvcproject.dao.MemberDAO"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.DriverManager"%>
@@ -35,10 +35,11 @@
 %>
 <c:set var="memberDTO" value="${ requestScope.memberDTO}" ></c:set>
 <c:if test="${!empty memberDTO }">
-<form action="updatePro.me" method="post">>
+<form action="updatePro.me" method="post">
 아이디 : <input type="text" name="id" value="${memberDTO.id }" readonly><br>
 비밀번호 : <input type="password" name="pw"> 비밀번호 입력 시 회원정보 수정<br>
 이름 : <input type="text" name="name" value="${memberDTO.name }"><br>
+<input type="submit" value="수정하기">
 </form>
 </c:if>
 <c:if test="${empty memberDTO }">
