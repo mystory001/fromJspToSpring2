@@ -19,10 +19,9 @@ public class BoardDAO {
 	PreparedStatement pstmt = null;
 	
 	public Connection getConnection() {
-		Connection connection = null;
 		try {
 			Context init = new InitialContext();
-			DataSource dataSource = (DataSource)init.lookup("java:comp/env/jdbc/Mysql");
+			DataSource dataSource = (DataSource)init.lookup("java:comp/env/jdbc/MysqlDB");
 			connection = dataSource.getConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -120,7 +119,6 @@ public class BoardDAO {
 				
 				boardList.add(boardDTO);
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -141,7 +139,6 @@ public class BoardDAO {
 			pstmt.setInt(1, num);
 			
 			rs = pstmt.executeQuery();
-			
 			if(rs.next()) {
 				boardDTO.setNum(rs.getInt("num"));
 				boardDTO.setName(rs.getString("name"));
