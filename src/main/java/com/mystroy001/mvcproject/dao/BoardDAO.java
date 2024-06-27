@@ -11,6 +11,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import com.mystroy001.mvcproject.domain.BoardDTO;
+import com.mystroy001.mvcproject.domain.PageDTO;
 
 public class BoardDAO {
 //게시판 데이터베이스 작업
@@ -96,15 +97,20 @@ public class BoardDAO {
 		return num;
 	}//
 	
-	public ArrayList<BoardDTO> getBoardList(){
+	public ArrayList<BoardDTO> getBoardList(PageDTO pageDTO){
 		System.out.println("BoardDAO getBoardList()");
 		ArrayList<BoardDTO> boardList = new ArrayList<BoardDTO>();
 		
 		try {
 			connection = getConnection();
 			
-			String sql = "select * from board";
+			String sql = "select * from board order by num desc limit ?,?";
+			//select * from board order by num desc limit 시작행-1, 글 개수
+			//limit 키워드 => 지정한 개수만큼 자료를 보여줌. 개수 제한 키워드
+			//limit 시작위치, 반환개수
 			pstmt = connection.prepareStatement(sql);
+			pstmt.setInt(1, pageDTO.getStartRow()-1); //시작행-1
+			pstmt.setInt(2, pageDTO.getPageSize()); //글의 개수
 			
 			rs = pstmt.executeQuery();
 			
@@ -191,14 +197,14 @@ public class BoardDAO {
 		}
 	}//
 	
-	public void deleteBoard(BoardDTO boardDTO) {
+	public void deleteBoard(int num) {
 		System.out.println("BoardDAO deleteBoard()");
 		try {
 			connection = getConnection();
 
 			String sql = "delete from board where num=?";
 			pstmt = connection.prepareStatement(sql);
-			pstmt.setInt(1, boardDTO.getNum());
+			pstmt.setInt(1, num);
 			
 			pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -207,5 +213,24 @@ public class BoardDAO {
 			dbClose();
 		}
 	}//
+	
+	public int getBoardCount() {
+		System.out.println("BoardDAO getBoardCount()");
+		int count = 0;
+		try {
+			connection = getConnection();
+			String sql ="select count(*) from board";
+			pstmt = connection.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				count = rs.getInt("count(*)");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbClose();
+		}
+		return count;
+	}
 
 }

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.mystroy001.mvcproject.dao.BoardDAO;
 import com.mystroy001.mvcproject.domain.BoardDTO;
+import com.mystroy001.mvcproject.domain.PageDTO;
 
 public class BoardService {
 	
@@ -40,12 +41,32 @@ public class BoardService {
 		}
 	}
 
-	public ArrayList<BoardDTO> getBoardList() {
+	public ArrayList<BoardDTO> getBoardList(PageDTO pageDTO) {
 		System.out.println("BoardService getBoardList()");
 		ArrayList<BoardDTO> boardList = null;
 		try {
+			int pageSize = pageDTO.getPageSize();
+			int currentPage = pageDTO.getCurrentPage();
+			
+			//시작하는 행 번호 구하기
+			//currentPage pageSize로 startRow가 나오게 계산
+			//1 10 => 1+0*10 = 1+0 = 1
+			//2 10 => 1+1*10 = 10+1 = 11
+			//3 10 => 1+2*10 = 20+1 = 21
+			int startRow = (currentPage-1) * pageSize+1;
+			
+			//끝나는 행 번호 구하기
+			//startRow pageSize로 endRow가 나오게 계산
+			//1 10 => 1 + 10-1 => 10
+			//11 10 => 11 + 10-1 => 20
+			//21 10 => 21 + 10-1 => 30
+			int endRow = startRow-1 + pageSize;
+			
+			pageDTO.setStartRow(startRow);
+			pageDTO.setEndRow(endRow);
+			
 			BoardDAO boardDAO = new BoardDAO();
-			boardList = boardDAO.getBoardList();
+			boardList = boardDAO.getBoardList(pageDTO);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -94,6 +115,28 @@ public class BoardService {
 			e.printStackTrace();
 		}
 		
+	}
+
+	public void deleteBoard(int num) {
+		System.out.println("BoardService deleteBoard()");
+		try {
+			boardDAO = new BoardDAO();
+			boardDAO.deleteBoard(num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public int getBoardCount() {
+		System.out.println("BoardService getBoardCount()");
+		int count = 0;
+		try {
+			boardDAO = new BoardDAO();
+			count = boardDAO.getBoardCount();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 }

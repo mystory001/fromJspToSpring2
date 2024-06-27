@@ -9,6 +9,7 @@
 </head>
 <body>
 <h1>글 목록</h1>
+<c:set var="pageDTO" value="${requestScope.pageDTO }"/>
 <%-- <% --%>
 <!-- // BoardDAO boardDAO = new BoardDAO(); -->
 <!-- // ArrayList<BoardDTO> boardList = boardDAO.getBoardList(); -->
@@ -40,6 +41,9 @@
 	<td>${boardDTO.date }</td></tr>
 </c:forEach>
 </table>
-
+<a href="main.me">메인으로 이동</a><br>
+<!-- <a href="list.bo?pageNum=1">1</a> -->
+<!-- <a href="list.bo?pageNum=2">2</a> -->
+<!-- <a href="list.bo?pageNum=3">3</a> -->
 </body>
 </html>
