@@ -72,17 +72,44 @@ public class BoardController extends HttpServlet{
 			pageDTO.setPageSize(pageSize);
 			pageDTO.setPageNum(pageNum);
 			pageDTO.setCurrentPage(currentPage);
+			boardService = new BoardService();
+			ArrayList<BoardDTO> boardList = boardService.getBoardList(pageDTO);
 			//페이징 작업
 			//전체 글 개수 구하기
-			boardService = new BoardService();
 			int count = boardService.getBoardCount();
+			//한 화면에 보여줄 페이지 개수 설정
+			int pageBlock = 10;
+			//1~10,11~20,21~30,...
+			//시작하는 페이지 번호 구하기
+			//currentPage pageBlock => startPage(정수형 나누기)
+			//1~10(0~9) 10개 => (0~9)/10*10+1 => 0*10 +1 => 0 +1  => 1페이지
+			//11~20(10~19) 10개 => (10~19)/10*10+1 => 1*10+1 => 10 + 1 => 2페이지
+			//21~30(20~29) 10개 => (20~29)/10*10+1 => 2*10+1 => 20 + 1 => 3페이지
+			int startPage = (currentPage -1)/pageBlock*pageBlock+1;
+			//끝나는 페이지 구하기
+			//startPage pageBlock => endPage
+			int endPage = (startPage-1)+pageBlock;
+			//이 작업까지하면 1~10페이지까지 나옴
+			
+			//전체 페이지 개수
+			//전체 글 개수가 29개라면, 한 화면에 보여줄 글 개수는 10개, 29/10 = 2 => 2+(29%10=9) → 나머지가 있을 경우 1페이지 추가
+			//전체 글 개수가 10개라면, 10/10=1 +(10%10=0) => 나머지가 없는 경우 0페이지 추가
+			//글 개수/한 화면에 보여줄 개수 +(나머지가 없으면?0:1)
+			int pageCount = count/pageSize+((count%pageSize==0)?0:1);
+			//endPage > 전체 페이지 개수
+			if(endPage>pageCount) {
+				endPage=pageCount;
+			}
+			
 			pageDTO.setCount(count);
+			pageDTO.setPageBlock(pageBlock);
+			pageDTO.setStartPage(startPage);
+			pageDTO.setEndPage(endPage);
+			pageDTO.setPageCount(pageCount);
 			//request에 "pageDTO"저장
 			request.setAttribute("pageDTO", pageDTO);
 			
 			
-			boardService = new BoardService();
-			ArrayList<BoardDTO> boardList = boardService.getBoardList(pageDTO);
 			request.setAttribute("boardList", boardList);
 			dispatcher = request.getRequestDispatcher("board/list.jsp");
 			dispatcher.forward(request, response);
@@ -99,11 +126,10 @@ public class BoardController extends HttpServlet{
 			boardService.updateReadCount(num);
 			
 			//num에 대한 글 가져오기
-			boardDTO = boardService.getBoard(num);
+			BoardDTO boardDTO = boardService.getBoard(num);
 			
 			//request에 boardDTO 값 가져오기
 			request.setAttribute("boardDTO", boardDTO);
-			
 			dispatcher = request.getRequestDispatcher("board/content.jsp");
 			dispatcher.forward(request, response);
 		}

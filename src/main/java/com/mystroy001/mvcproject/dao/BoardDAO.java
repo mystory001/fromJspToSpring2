@@ -135,7 +135,7 @@ public class BoardDAO {
 	
 	public BoardDTO getBoard(int num) {
 		System.out.println("BoardDAO getBoard()");
-		BoardDTO boardDTO = new BoardDTO();
+		BoardDTO boardDTO = null;
 		
 		try {
 			connection = getConnection();
@@ -146,6 +146,7 @@ public class BoardDAO {
 			
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
+				boardDTO = new BoardDTO();
 				boardDTO.setNum(rs.getInt("num"));
 				boardDTO.setName(rs.getString("name"));
 				boardDTO.setSubject(rs.getString("subject"));

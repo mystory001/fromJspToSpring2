@@ -93,7 +93,7 @@ public class BoardService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return boardDTO;
 	}
 
 	public void updateBoard(HttpServletRequest request) {

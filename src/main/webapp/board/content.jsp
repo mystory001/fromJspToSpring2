@@ -53,18 +53,19 @@
 <table border="1">
 <tr><td>글번호</td><td>${boardDTO.num}</td></tr>
 <tr><td>글쓴이</td><td>${boardDTO.name}</td></tr>
-<tr><td>조회수</td><td>${boardDTO.readcount}</td></tr>
+<tr><td>조회수</td><td>${boardDTO.readCount}</td></tr>
 <tr><td>글쓴날짜</td><td>${boardDTO.date}</td></tr>
 <tr><td>제목</td><td>${boardDTO.subject}</td></tr>
 <tr><td>내용</td><td>${boardDTO.content}</td></tr>
-<tr><td>
-<a href="list.bo">글목록</a></td>
+<tr><td colspan="2">
 <c:if test="${ ! empty sessionScope.id}">
-<c:if test="${sessionScope.id eq boardDTO.name}">
-<td><a href="update.bo?num=${boardDTO.num}">글수정</a></td>
-<td><a href="delete.bo?num=${boardDTO.num}">글삭제</a></td>
+	<c:if test="${sessionScope.id eq boardDTO.name}">
+		<a href="update.bo?num=${boardDTO.num}">글수정</a> 
+		<a href="delete.bo?num=${boardDTO.num}">글삭제</a>
+	</c:if>
 </c:if>
-</c:if></tr>
+<a href="list.bo">글목록</a></td></tr>
 </table>
+
 </body>
 </html>
